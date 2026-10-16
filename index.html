@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>SIGDI - Sistema Integrado de Gestão do Distrito de Inovação</title>
+<link rel="icon" type="image/png" href="LogoNAV.png">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+<div id="sigdi-root">
+  <div class="sigdi-header">
+  <div class="brand">
+    <img 
+      class="mark" 
+      src="logo.png" 
+      alt="Distrito de Inovação Cantareira"
+    >
+  </div>
+
+  <div class="title">
+    <h1>SIGDI</h1>
+    <p>Sistema Integrado de Gestão do Distrito de Inovação</p>
+  </div>
+
+  <div class="meta">
+    <div id="sigdi-date">—</div>
+    <div class="time" id="sigdi-time">—</div>
+  </div>
+</div>
+
+  <div class="sigdi-layout">
+    <div class="sigdi-nav" id="sigdi-nav">
+      <button data-page="geral" class="active">Visão Geral</button>
+      <button data-page="governanca">1 · Governança</button>
+      <button data-page="parcerias">2 · Parcerias</button>
+      <button data-page="projetos">3 · Projetos</button>
+      <button data-page="agenda">4 · Agenda</button>
+      <button data-page="comunicacao">5 · Comunicação</button>
+      <button data-page="processos">6 · Processos</button>
+      <button data-page="inteligencia">7 · Inteligência</button>
+      <button data-page="memoria">8 · Memória</button>
+      <button data-page="indicadores">9 · Indicadores</button>
+    </div>
+
+    <div class="sigdi-content">
+      <div class="sigdi-grid" id="sigdi-grid">
+        <!-- 1 Governança -->
+        <div class="card" data-page="governanca">
+          <h3><span class="n">1</span> Governança</h3>
+          <div class="kpi-row">
+            <div class="kpi"><div class="val" data-k="gov_reunioes_realizadas">–</div><div class="lbl">Reuniões (mês)</div></div>
+            <div class="kpi"><div class="val" data-k="gov_deliberacoes_aprovadas">–</div><div class="lbl">Deliberações aprov.</div></div>
+            <div class="kpi"><div class="val" data-k="gov_deliberacoes_pendentes">–</div><div class="lbl">Pendentes</div></div>
+          </div>
+          <div id="gov_pendencias" class="empty-note">Carregando pendências…</div>
+          <div class="detail">
+            <h4>Reuniões: realizadas x previstas</h4>
+            <div class="chart-box"><canvas id="chart-governanca-reunioes"></canvas></div>
+            <h4>Deliberações do CDT</h4>
+            <div class="chart-box small"><canvas id="chart-governanca-delib"></canvas></div>
+          </div>
+        </div>
+
+        <!-- 2 Parcerias -->
+        <div class="card" data-page="parcerias">
+          <h3><span class="n">2</span> Parcerias</h3>
+          <div id="parcerias_funil"><div class="empty-note">Carregando funil…</div></div>
+          <div class="detail">
+            <h4>Funil por etapa</h4>
+            <div class="chart-box"><canvas id="chart-parcerias-funil"></canvas></div>
+            <h4>Todas as parcerias</h4>
+            <table class="mini" id="parcerias_tabela"><tbody></tbody></table>
+          </div>
+        </div>
+
+        <!-- 3 Projetos Estratégicos -->
+        <div class="card" data-page="projetos">
+          <h3><span class="n">3</span> Projetos Estratégicos</h3>
+          <table class="mini" id="projetos_tabela">
+            <tbody><tr><td class="empty-note">Carregando projetos…</td></tr></tbody>
+          </table>
+          <div class="detail">
+            <h4>Distribuição de risco</h4>
+            <div class="chart-box small"><canvas id="chart-projetos-risco"></canvas></div>
+            <h4>Progresso por projeto</h4>
+            <div class="chart-box"><canvas id="chart-projetos-progresso"></canvas></div>
+          </div>
+        </div>
+
+        <!-- 4 Agenda e Ecossistema -->
+        <div class="card" data-page="agenda">
+          <h3><span class="n">4</span> Agenda e Ecossistema</h3>
+          <div class="kpi-row">
+            <div class="kpi"><div class="val" data-k="agenda_eventos_realizados">–</div><div class="lbl">Eventos real.</div></div>
+            <div class="kpi"><div class="val" data-k="agenda_eventos_previstos">–</div><div class="lbl">Eventos prev.</div></div>
+            <div class="kpi"><div class="val" data-k="agenda_visitas_tecnicas">–</div><div class="lbl">Visitas técnicas</div></div>
+            <div class="kpi"><div class="val" data-k="agenda_solicitacoes">–</div><div class="lbl">Solicitações</div></div>
+          </div>
+          <div class="mini-bars" id="agenda_mini_bars"></div>
+          <div class="detail">
+            <h4>Panorama do mês</h4>
+            <div class="chart-box"><canvas id="chart-agenda"></canvas></div>
+            <h4>Agenda completa</h4>
+            <div class="calendar-custom" id="calendar-custom">
+              <div class="calendar-nav">
+                <button id="cal-prev" class="cal-nav-btn">‹</button>
+                <div id="cal-month-label" class="cal-month-label">—</div>
+                <button id="cal-next" class="cal-nav-btn">›</button>
+                <button id="cal-today" class="cal-today-btn">Hoje</button>
+              </div>
+              <div class="calendar-weekdays">
+                <span>DOM</span><span>SEG</span><span>TER</span><span>QUA</span><span>QUI</span><span>SEX</span><span>SÁB</span>
+              </div>
+              <div class="calendar-grid" id="calendar-grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 Comunicação -->
+        <div class="card" data-page="comunicacao">
+          <h3><span class="n">5</span> Comunicação Institucional</h3>
+          <div class="kpi-row">
+            <div class="kpi"><div class="val" data-k="com_linkedin">–</div><div class="lbl">Posts LinkedIn</div></div>
+            <div class="kpi"><div class="val" data-k="com_instagram">–</div><div class="lbl">Posts Instagram</div></div>
+            <div class="kpi"><div class="val" data-k="com_materias">–</div><div class="lbl">Matérias</div></div>
+            <div class="kpi"><div class="val" data-k="com_alcance">–</div><div class="lbl">Alcance</div></div>
+          </div>
+          <div class="mini-bars" id="com_mini_bars"></div>
+          <div class="detail">
+            <h4>Publicações por canal</h4>
+            <div class="chart-box"><canvas id="chart-comunicacao"></canvas></div>
+            <div class="highlight-box" id="com_highlight"></div>
+          </div>
+        </div>
+
+        <!-- 6 Processos Estratégicos -->
+        <div class="card" data-page="processos">
+          <h3><span class="n">6</span> Processos Estratégicos</h3>
+          <table class="mini" id="processos_tabela">
+            <tbody><tr><td class="empty-note">Carregando processos…</td></tr></tbody>
+          </table>
+          <div class="detail">
+            <h4>Status dos processos</h4>
+            <div class="chart-box small"><canvas id="chart-processos-status"></canvas></div>
+          </div>
+        </div>
+
+        <!-- 7 Inteligência -->
+        <div class="card" data-page="inteligencia">
+          <h3><span class="n">7</span> Inteligência</h3>
+          <table class="mini" id="oportunidades_tabela">
+            <tbody><tr><td class="empty-note">Carregando oportunidades…</td></tr></tbody>
+          </table>
+          <div class="detail">
+            <h4>Oportunidades por estágio</h4>
+            <div class="chart-box small"><canvas id="chart-oportunidades"></canvas></div>
+          </div>
+        </div>
+
+        <!-- 8 Memória Institucional -->
+        <div class="card" data-page="memoria">
+          <h3><span class="n">8</span> Memória Institucional</h3>
+          <div class="kpi-row">
+            <div class="kpi"><div class="val" data-k="mem_reunioes">–</div><div class="lbl">Reuniões reg.</div></div>
+            <div class="kpi"><div class="val" data-k="mem_documentos">–</div><div class="lbl">Documentos</div></div>
+            <div class="kpi"><div class="val" data-k="mem_decisoes">–</div><div class="lbl">Decisões</div></div>
+            <div class="kpi"><div class="val" data-k="mem_fotos">–</div><div class="lbl">Fotos/mídia</div></div>
+          </div>
+          <div class="mini-bars" id="mem_mini_bars"></div>
+          <div class="detail">
+            <h4>Registros acumulados</h4>
+            <div class="chart-box"><canvas id="chart-memoria"></canvas></div>
+          </div>
+        </div>
+
+        <!-- 9 Indicadores Gerais -->
+        <div class="card" data-page="indicadores">
+          <h3><span class="n">9</span> Indicadores Gerais</h3>
+          <div class="kpi-row">
+            <div class="kpi"><div class="val" data-k="ind_parcerias">–</div><div class="lbl">Parcerias ativas</div></div>
+            <div class="kpi"><div class="val" data-k="ind_projetos">–</div><div class="lbl">Projetos</div></div>
+            <div class="kpi"><div class="val" data-k="ind_eventos">–</div><div class="lbl">Eventos previstos</div></div>
+            <div class="kpi"><div class="val" data-k="ind_visitas">–</div><div class="lbl">Visitas técnicas</div></div>
+          </div>
+          <div class="mini-bars" id="ind_mini_bars"></div>
+          <div class="detail">
+            <h4>Panorama geral do Distrito</h4>
+            <div class="chart-box"><canvas id="chart-indicadores"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-note" id="sigdi-status">Conectando à planilha…</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

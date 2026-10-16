@@ -1,0 +1,956 @@
+/* ============================================================
+   SIGDI — Sistema Integrado de Gestão do Distrito de Inovação
+   Folha de estilos
+   ============================================================ */
+
+/* ---------- Variáveis de cor ---------- */
+:root {
+  --bg: #0b0f14;
+  --panel: #131a22;
+  --panel-border: #223041;
+  --ink: #e8edf2;
+  --ink-dim: #8fa1b3;
+  --accent: #3ee0d0;
+  --accent-dim: #1c4d49;
+  --amber: #f0b84c;
+  --red: #ef5d5d;
+  --green: #4fd07a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+}
+
+/* ============================================================
+   ESTRUTURA PRINCIPAL
+   ============================================================ */
+
+#sigdi-root {
+  background: radial-gradient(circle at 15% 0%, #101823 0%, var(--bg) 55%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+/* ============================================================
+   CABEÇALHO
+   ============================================================ */
+
+.sigdi-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 92px;
+  padding: 18px 26px;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  margin-bottom: 18px;
+  flex-shrink: 0;
+}
+
+.sigdi-header .brand {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 220px;
+  height: 60px;
+}
+
+.sigdi-header .brand .mark {
+  width: 140px;
+  height: 60px;
+  object-fit: contain;
+  object-position: left center;
+  display: block;
+  transform: scale(2.9);
+  transform-origin: left center;
+}
+
+.sigdi-header .title {
+  flex: 1;
+  text-align: center;
+}
+
+.sigdi-header .title h1 {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0.08em;
+}
+
+.sigdi-header .title p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--ink-dim);
+}
+
+.sigdi-header .meta {
+  min-width: 220px;
+  text-align: right;
+  font-size: 14px;
+  color: var(--ink-dim);
+}
+
+.sigdi-header .meta .time {
+  font-size: 20px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ============================================================
+   LAYOUT (menu lateral + conteúdo)
+   ============================================================ */
+
+.sigdi-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 18px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Correção: por padrão o CSS Grid estica os itens (align-items:
+   stretch) até a altura da linha inteira. Isso é o que queremos na
+   Visão Geral (cards do mesmo tamanho), mas força a página de um
+   módulo específico a ocupar a tela toda mesmo com pouco conteúdo,
+   deixando um vão vazio embaixo. A classe .detail-mode é ligada
+   automaticamente pelo script.js sempre que uma página específica
+   está aberta, e desliga esse esticamento. */
+.sigdi-layout.detail-mode {
+  align-items: start;
+}
+
+.sigdi-layout.detail-mode .sigdi-content {
+  align-self: start;
+}
+
+/* ---------- Menu lateral ---------- */
+
+.sigdi-nav {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 14px;
+  height: fit-content;
+}
+
+.sigdi-nav button {
+  all: unset;
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  border-radius: 8px;
+  color: var(--ink-dim);
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sigdi-nav button:hover {
+  background: #182430;
+  color: var(--ink);
+}
+
+.sigdi-nav button.active {
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---------- Área de conteúdo ---------- */
+
+.sigdi-content {
+  min-height: 0;
+  overflow-y: visible;
+}
+
+/* ============================================================
+   GRID DE CARDS
+   ============================================================ */
+
+.sigdi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  height: 100%;
+}
+
+.sigdi-grid.single-view {
+  grid-template-columns: 1fr;
+  height: auto;
+  min-height: 0;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  min-height: 210px;
+  min-width: 0;
+  overflow: visible;
+  display: none;
+}
+
+/* Visão Geral: todos os cards aparecem lado a lado */
+.sigdi-grid:not(.single-view) .card {
+  display: block;
+}
+
+/* Página de um módulo específico: só o card selecionado aparece */
+.card.visible {
+  display: block;
+}
+
+.sigdi-grid.single-view .card.visible {
+  min-height: 0;
+  height: auto;
+  padding: 30px 34px;
+}
+
+.sigdi-grid.single-view .card.visible h3 {
+  font-size: 21px;
+  margin-bottom: 22px;
+}
+
+.card h3 {
+  margin: 0 0 14px;
+  font-size: 16px;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card h3 .n {
+  color: var(--accent);
+}
+
+/* ============================================================
+   KPIs (números em destaque)
+   ============================================================ */
+
+.kpi-row {
+  display: flex;
+  gap: 26px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.kpi {
+  min-width: 80px;
+}
+
+.kpi .val {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.kpi .lbl {
+  font-size: 12px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   MINI-GRÁFICOS DE BARRA
+   (usados em Parcerias e nos cards que só tinham números soltos:
+   Agenda, Comunicação, Memória, Indicadores Gerais)
+   ============================================================ */
+
+.mini-bars {
+  margin-top: 16px;
+}
+
+.mini-bars .barline span:first-child {
+  width: 96px;
+  flex-shrink: 0;
+  color: var(--ink-dim);
+}
+
+.barline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  margin: 9px 0;
+  color: var(--ink-dim);
+}
+
+.barline .track {
+  flex: 1;
+  height: 9px;
+  background: #1c2733;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.barline .fill {
+  height: 100%;
+  background: var(--accent);
+}
+
+.barline .num {
+  width: 34px;
+  text-align: right;
+  color: var(--ink);
+}
+
+/* ============================================================
+   PÍLULAS / TAGS
+   ============================================================ */
+
+.pill {
+  display: inline-block;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin: 3px 5px 3px 0;
+}
+
+.pill.alta {
+  background: #3a1c1c;
+  color: var(--red);
+}
+
+.pill.media {
+  background: #3a2f14;
+  color: var(--amber);
+}
+
+.pill.baixa {
+  background: #132f1e;
+  color: var(--green);
+}
+
+/* ============================================================
+   TABELAS
+   ============================================================ */
+
+table.mini {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+table.mini td {
+  padding: 7px 4px;
+  border-top: 1px solid var(--panel-border);
+  vertical-align: top;
+}
+
+table.mini tr:first-child td {
+  border-top: none;
+}
+
+/* ============================================================
+   CORES DE RISCO / STATUS
+   ============================================================ */
+
+.risk-baixo { color: var(--green); }
+.risk-medio { color: var(--amber); }
+.risk-alto  { color: var(--red); }
+
+/* ============================================================
+   ELEMENTOS DIVERSOS
+   ============================================================ */
+
+.empty-note {
+  color: var(--ink-dim);
+  font-size: 13px;
+  font-style: italic;
+}
+
+.status-dot {
+  font-size: 11px;
+  margin-right: 6px;
+}
+
+.footer-note {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--ink-dim);
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   CONTEÚDO DETALHADO (gráficos, tabelas completas)
+   Só aparece na página expandida de cada módulo
+   ============================================================ */
+
+.detail {
+  display: none;
+  margin-top: 24px;
+  min-width: 0;
+}
+
+.card.visible .detail {
+  display: block;
+}
+
+.detail h4 {
+  margin: 24px 0 10px;
+  font-size: 15px;
+  color: var(--ink-dim);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.detail h4:first-child {
+  margin-top: 0;
+}
+
+/* ============================================================
+   GRÁFICOS (Chart.js)
+   ============================================================ */
+
+.chart-box {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  height: 300px;
+  overflow: visible;
+}
+
+/* Gráficos de pizza/doughnut (menores, largura limitada) */
+.chart-box.small {
+  width: 100%;
+  max-width: 100%;
+  height: 320px;
+}
+
+.chart-box canvas {
+  width: 100% !important;
+  max-width: 100%;
+}
+
+/* ============================================================
+   AGENDA — calendário próprio (estilo do painel)
+   ============================================================ */
+
+.calendar-custom {
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 16px;
+  background: #0e141b;
+}
+
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.cal-nav-btn {
+  all: unset;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 34px;
+  color: var(--ink-dim);
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+}
+
+.cal-nav-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.cal-month-label {
+  font-size: 18px;
+  font-weight: 600;
+  flex: 1;
+  text-transform: capitalize;
+}
+
+.cal-today-btn {
+  all: unset;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-size: 12px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: minmax(82px, auto);
+  gap: 5px;
+}
+
+.cal-day {
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 7px 8px;
+  font-size: 13px;
+  color: var(--ink-dim);
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.cal-day.outside {
+  opacity: 0.35;
+}
+
+.cal-day.today {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.cal-day.today .cal-day-num {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.cal-day-num {
+  color: var(--ink);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.cal-event {
+  font-size: 11px;
+  color: var(--bg);
+  background: var(--accent);
+  border-radius: 4px;
+  padding: 2px 5px;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cal-event-more {
+  font-size: 11px;
+  color: var(--ink-dim);
+}
+
+/* ============================================================
+   RESPONSIVIDADE
+   ============================================================ */
+
+/* ---------- Telas grandes / laptop pequeno (≤1100px) ---------- */
+@media (max-width: 1100px) {
+  .sigdi-layout {
+    grid-template-columns: 190px 1fr;
+  }
+
+  .sigdi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sigdi-header .brand,
+  .sigdi-header .meta {
+    min-width: 180px;
+  }
+
+  .chart-box {
+    height: 280px;
+  }
+}
+
+/* ---------- Tablet — menu vira uma faixa horizontal (≤900px) ---------- */
+@media (max-width: 900px) {
+  #sigdi-root {
+    padding: 12px;
+  }
+
+  .sigdi-header {
+    min-height: auto;
+    padding: 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .sigdi-header .brand {
+    min-width: 160px;
+    height: 54px;
+  }
+
+  .sigdi-header .brand .mark {
+    width: 125px;
+    height: 54px;
+  }
+
+  .sigdi-header .title {
+    order: 3;
+    width: 100%;
+  }
+
+  .sigdi-header .title h1 {
+    font-size: 23px;
+  }
+
+  .sigdi-header .title p {
+    font-size: 12px;
+  }
+
+  .sigdi-header .meta {
+    min-width: 160px;
+    font-size: 12px;
+  }
+
+  .sigdi-header .meta .time {
+    font-size: 18px;
+  }
+
+  .sigdi-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sigdi-nav {
+    width: 100%;
+    padding: 8px;
+    height: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .sigdi-nav button {
+    display: inline-flex;
+    width: auto;
+    min-width: max-content;
+    margin: 0 4px 0 0;
+    padding: 9px 12px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .sigdi-content {
+    width: 100%;
+  }
+
+  .sigdi-grid,
+  .sigdi-grid.single-view {
+    grid-template-columns: 1fr;
+    width: 100%;
+    height: auto;
+    gap: 14px;
+  }
+
+  .card {
+    width: 100%;
+    min-height: 0;
+    padding: 18px;
+  }
+
+  .sigdi-grid.single-view .card.visible {
+    padding: 22px;
+  }
+
+  .chart-box {
+    height: 270px;
+  }
+
+  .chart-box.small {
+    height: 220px;
+  }
+
+  .calendar-grid {
+    grid-auto-rows: minmax(72px, auto);
+  }
+}
+
+/* ---------- Celular (≤600px) ---------- */
+@media (max-width: 600px) {
+  html, body {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  #sigdi-root {
+    width: 100%;
+    min-height: 100dvh;
+    padding: 8px;
+  }
+
+  /* Cabeçalho compacto: logo + horário numa linha, título embaixo */
+  .sigdi-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    min-height: 0;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+  }
+
+  .sigdi-header .brand {
+    min-width: 0;
+    width: auto;
+    height: 46px;
+  }
+
+  .sigdi-header .brand .mark {
+    width: 105px;
+    height: 46px;
+    transform: scale(2.25);
+  }
+
+  .sigdi-header .title {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    text-align: left;
+    order: initial;
+  }
+
+  .sigdi-header .title h1 {
+    font-size: 19px;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+  }
+
+  .sigdi-header .title p {
+    font-size: 11px;
+    line-height: 1.3;
+    margin-top: 3px;
+  }
+
+  .sigdi-header .meta {
+    min-width: 0;
+    font-size: 10px;
+    text-align: right;
+  }
+
+  .sigdi-header .meta .time {
+    font-size: 15px;
+  }
+
+  .sigdi-nav {
+    padding: 6px;
+    border-radius: 9px;
+    white-space: nowrap;
+    scrollbar-width: thin;
+  }
+
+  .sigdi-nav button {
+    font-size: 12px;
+    padding: 8px 10px;
+    border-radius: 7px;
+  }
+
+  .sigdi-grid,
+  .sigdi-grid.single-view {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 10px;
+  }
+
+  .card,
+  .sigdi-grid.single-view .card.visible {
+    min-height: 0;
+    height: auto;
+    padding: 15px;
+    border-radius: 10px;
+  }
+
+  .sigdi-grid.single-view .card.visible h3 {
+    font-size: 17px;
+    margin-bottom: 14px;
+  }
+
+  .card h3 {
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  /* KPIs em grade de 3 colunas, ocupando melhor a largura */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .kpi {
+    min-width: 0;
+  }
+
+  .kpi .val {
+    font-size: 22px;
+  }
+
+  .kpi .lbl {
+    font-size: 9px;
+    line-height: 1.2;
+  }
+
+  .barline {
+    gap: 7px;
+    font-size: 12px;
+    margin: 8px 0;
+  }
+
+  .barline .track {
+    min-width: 40px;
+    height: 8px;
+  }
+
+  .barline .num {
+    width: 30px;
+    flex-shrink: 0;
+  }
+
+  .chart-box {
+    height: 240px;
+    min-height: 0;
+  }
+
+  .chart-box.small {
+    height: 280px;
+    min-height: 0;
+  }
+
+  .calendar-custom {
+    padding: 10px;
+  }
+
+  .cal-month-label {
+    font-size: 15px;
+  }
+
+  .cal-nav-btn {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  .cal-today-btn {
+    font-size: 11px;
+    padding: 6px 9px;
+  }
+
+  .calendar-weekdays {
+    font-size: 9px;
+  }
+
+  .calendar-grid {
+    grid-auto-rows: minmax(55px, auto);
+    gap: 3px;
+  }
+
+  .cal-day {
+    padding: 4px;
+    font-size: 10px;
+  }
+
+  .cal-event,
+  .cal-event-more {
+    font-size: 8px;
+  }
+
+  .cal-event {
+    padding: 1px 3px;
+  }
+
+  .detail {
+    margin-top: 16px;
+  }
+
+  .detail h4 {
+    margin: 18px 0 8px;
+    font-size: 13px;
+  }
+
+  table.mini {
+    font-size: 11px;
+  }
+
+  table.mini td {
+    padding: 6px 3px;
+  }
+
+  .empty-note {
+    font-size: 11px;
+  }
+
+  .footer-note {
+    font-size: 9px;
+    margin-top: 10px;
+  }
+}
+
+/* ---------- Celulares muito pequenos (≤380px) ---------- */
+@media (max-width: 380px) {
+  #sigdi-root {
+    padding: 6px;
+  }
+
+  .sigdi-header {
+    padding: 10px;
+  }
+
+  .sigdi-header .title h1 {
+    font-size: 17px;
+  }
+
+  .sigdi-header .title p {
+    font-size: 10px;
+  }
+
+  .sigdi-nav button {
+    font-size: 11px;
+    padding: 7px 9px;
+  }
+
+  .card,
+  .sigdi-grid.single-view .card.visible {
+    padding: 13px;
+  }
+
+  .kpi .val {
+    font-size: 20px;
+  }
+
+  .kpi .lbl {
+    font-size: 8px;
+  }
+
+  .chart-box {
+    height: 220px;
+  }
+
+  .chart-box.small {
+    height: 180px;
+  }
+}
